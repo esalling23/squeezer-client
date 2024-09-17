@@ -1,4 +1,4 @@
-import { createTheme } from '@mui/material/styles';
+import { createTheme, responsiveFontSizes } from '@mui/material/styles';
 
 const themeOptions = {
   palette: {
@@ -18,7 +18,7 @@ const themeOptions = {
       secondary: '#424242',
       disabled: '#9e9e9e',
     },
-    divider: '#424242',
+    divider: '#f0eeee',
     warning: {
       main: '#fdd835',
     },
@@ -61,4 +61,4 @@ const themeOptions = {
   },
 };
 
-export default createTheme(themeOptions);
+export default responsiveFontSizes(createTheme(themeOptions));
