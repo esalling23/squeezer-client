@@ -1,5 +1,5 @@
 import { CssBaseline, Grid2, Typography } from "@mui/material";
-import ResponsiveDrawer from "../ResponsiveDrawer";
+import ResponsiveDrawer from "./ResponsiveDrawer";
 import { useEffect, useMemo, useState } from "react";
 import FormSection from "./FormSection";
 import { useNavigate, useParams } from "react-router";
