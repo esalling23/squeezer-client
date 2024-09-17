@@ -3,7 +3,7 @@ import axios from 'axios'
 
 export const indexSites = (user) => {
   return axios({
-    url: '/sites',
+    url: '/api/sites',
     headers: {
       Authorization: `Bearer ${user.token}`
     }
@@ -12,9 +12,9 @@ export const indexSites = (user) => {
 
 export const createSite = (user) => {
   return axios({
-    url: '/sites',
+    url: '/api/sites',
     method: 'post',
-    data: { site: {} },
+    data: { site: { } },
     headers: {
       Authorization: `Bearer ${user.token}`
     }
@@ -23,7 +23,7 @@ export const createSite = (user) => {
 
 export const updateSite = (user, siteId, data) => {
   return axios({
-    url: `/sites/${siteId}`,
+    url: `/api/sites/${siteId}`,
     method: 'patch',
     data: data,
     headers: {
@@ -34,7 +34,7 @@ export const updateSite = (user, siteId, data) => {
 
 export const removeSite = (user, siteId) => {
   return axios({
-    url: `/sites/${siteId}`,
+    url: `/api/sites/${siteId}`,
     method: 'delete',
     headers: {
       Authorization: `Bearer ${user.token}`
