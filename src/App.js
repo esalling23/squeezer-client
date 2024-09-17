@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, useLocation } from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion'
 import { ThemeProvider } from '@mui/material/styles';
 
@@ -13,19 +13,21 @@ import SignOut from './components/auth/SignOut'
 import Account from './components/auth/Account'
 import SiteList from './components/Sites/SiteList'
 
-import SiteForm from './components/Sites/SiteForm';
 import MenuAppBar from './components/AppBar'
 import Home from './components/Landing';
-import pages from './lib/pages';
+import contentPages from './lib/pages';
 import theme from './theme';
 import SitesContainer from './components/Sites';
 import { useAppContext } from './context/AppContext';
 import { useUserContext } from './context/UserContext';
 import Grid from '@mui/material/Grid2';
+import SiteBuilder from './components/Sites/SiteBuilder';
+import { Fade } from '@mui/material';
 
 const App = () => {
   const { alerts } = useAppContext();
-	const { isAuthenticated } = useUserContext();
+	const { loading, isAuthenticated } = useUserContext();
+	const location = useLocation();
 
 	const msgAlertPopups = alerts.map((msgAlert) => (
 		<AutoDismissAlert
@@ -37,88 +39,51 @@ const App = () => {
 			message={msgAlert.message}
 		/>
 	));
+	const contentPageRoutes = contentPages.map(({ title, element: Component, path }) => (
+		<Route 
+			key={title}
+			element={<Component />} path={path} 
+		/>
+	));
+	const authenticatedRoutes = (
+		<>
+			<Route path='/sign-out' element={<SignOut />} />
+			<Route path='/account' element={<Account />} />
+			<Route path='/sites' element={<SitesContainer />}>
+				<Route path='/sites' exact element={<SiteList />} />
+				<Route path='/sites/create' exact element={<SiteBuilder isNew />} />
+				<Route path='/sites/:id' exact element={<SiteBuilder />} />
+			</Route>
+		</>
+	);
+	const preloginRoutes = (
+		<>
+			<Route path='/sign-up' element={<SignUp />} />
+			<Route path='/sign-in' element={<SignIn />} />
+		</>
+	);
 
   return (
 		<ThemeProvider theme={theme}>
-			<Box>
-				<MenuAppBar />
+			<Fade in={!loading}>
+				<Box>
+					<MenuAppBar />
 
-				<AnimatePresence>
-					{msgAlertPopups}
-				</AnimatePresence>
+					<AnimatePresence>
+						{msgAlertPopups}
+					</AnimatePresence>
 
-				<Container maxWidth="lg">
-					<Grid container sx={{ width: '100%' }} display="flex" justifyContent="center" alignItems="center" size="grow">
-						<Routes>
-							<Route
-								path='/'
-								element={(
-									<Home />
-								)}
-							/>
-							<Route
-								path='/sign-up'
-								element={(
-									<SignUp />
-								)}
-							/>
-							<Route
-								path='/sign-in'
-								element={(
-									<SignIn />
-								)}
-							/>
-							{pages.map(({ title, element: Component, path }) => (
-								<Route 
-									key={title}
-									element={<Component />} 
-									path={path} 
-								/>
-							))}
-							{isAuthenticated && (
-								<>
-									<Route
-										path='/sign-out'
-										element={(
-											<SignOut />
-										)}
-									/>
-									<Route
-										path='/account'
-										element={(
-											<Account />
-										)}
-									/>
-									<Route
-										path='/sites'
-										element={(
-											<SitesContainer />
-										)}
-									>
-										<Route
-											path='/sites'
-											exact
-											element={(
-												<SiteList />
-											)}
-										/>
-										<Route
-											path='/sites/:id'
-											exact
-											element={(
-												<SiteForm />
-											)}
-										/>
-									</Route>
-								</>
-							)}
-							
-						</Routes>
-					</Grid>
-				</Container>
-				
-			</Box>
-
+					<Container maxWidth="xl" sx={{ p: 0, mb: 8 }}>
+						<Grid container sx={{ width: '100%' }} justifyContent="center" alignItems="center">
+							<Routes>
+								<Route path='/' element={<Home />} />
+								{contentPageRoutes}
+								{isAuthenticated ? authenticatedRoutes : preloginRoutes}
+							</Routes>
+						</Grid>
+					</Container>
+				</Box>
+			</Fade>
 		</ThemeProvider>
   );
 };
