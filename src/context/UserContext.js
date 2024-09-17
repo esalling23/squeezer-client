@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import useAuthenticated from '../hooks/useAuthentication';
+import useAuthCookie from '../hooks/useAuthCookie';
 
 const UserContext = createContext();
 
@@ -9,14 +9,17 @@ export const useUserContext = () => {
 };
 
 export const UserProvider = ({ children }) => {
-	const { user, setUser, clearUser } = useAuthenticated();
+	const { user, setUser, clearUser } = useAuthCookie();
 
 	const [sites, setSites] = useState(null);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
 
 	const refreshData = useCallback(async () => {
-		if (!user) return;
+		if (!user) {
+			setLoading(false);
+			return;
+		}
 		setLoading(true);
 		try {
 			const response = await axios.get('/api/sites/user', {
@@ -34,17 +37,19 @@ export const UserProvider = ({ children }) => {
 		refreshData();
 	}, [refreshData]);
 
+	const getSite = useCallback((id) => sites?.find(site => site.id.toString() === id), [sites])
+
 	const value = useMemo(() => ({
 		refreshData,
 		sites,
-		getSite: (id) => sites?.find(site => site.id.toString() === id),
+		getSite,
 		loading,
 		error,
 		clearUser,
 		setUser,
 		user,
 		isAuthenticated: !!user,
-	}), [refreshData, sites, loading, error, user, clearUser, setUser]);
+	}), [refreshData, sites, getSite, loading, error, user, clearUser, setUser]);
 
 	return (
 		<UserContext.Provider value={value}>

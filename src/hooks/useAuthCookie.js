@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react';
 
-const useAuthenticated = () => {
+const useAuthCookie = () => {
   const [user, setUser] = useState(null);
 
-	const clearUser = () => setUser(null)
+	const clearUser = () => {
+		setUser(null)
+		window.localStorage.setItem('user', null)
+	}
 
 	useEffect(() => {
 		if (user) {
@@ -20,4 +23,4 @@ const useAuthenticated = () => {
 	}
 }
 
-export default useAuthenticated;
+export default useAuthCookie;
