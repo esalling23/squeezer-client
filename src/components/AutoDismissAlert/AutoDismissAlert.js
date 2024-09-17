@@ -28,7 +28,7 @@ const AutoDismissAlert = ({
       variant={variant}
 			severity={severity}
       onClose={handleClose}
-			sx={{ position: "fixed", right: 0 }}
+			sx={{ position: "fixed", right: 0, zIndex: 1000 }}
 		>
       <div className='container'>
         <AlertTitle>{heading}</AlertTitle>
