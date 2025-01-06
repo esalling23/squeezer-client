@@ -1,45 +1,43 @@
 import React, { useMemo } from "react";
 import styled from "styled-components";
-import { useLocation, useParams } from "react-router";
+import { useParams } from "react-router";
 
 import { AppBar as mAppBar, Box, Container, Toolbar, Typography, Button } from "@mui/material"
-import PostAddIcon from '@mui/icons-material/PostAdd';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
-import LinkButton from "../../shared/LinkButton"
 import RouterLink from "../../shared/RouterLink";
+import CreateSiteButton from "../SiteActions/CreateSiteButton";
 
 const AppBar = styled(mAppBar)(({ theme }) => ({
   boxShadow: 'none',
 	borderBottom: `1px solid ${theme.divider}`,
-	zIndex: 1
+	zIndex: 1,
+	bgcolor: 'white', 
+	'&.MuiPaper-root': {
+		boxShadow: 'none'
+	}
 }));
 
 const SiteAppBar = ({
 	site,
-	handleSave
 }) => {
 	const { id } = useParams();
 	const siteActions = useMemo(() => {
 		if (!id) {
 			return (
-				<RouterLink to={`/sites/create`}>
-					<PostAddIcon />
-					New Site
-				</RouterLink>
+				<CreateSiteButton />
 			)
 		}
-		return (
-			<Button onClick={handleSave}>save</Button>
-		)
+		return <RouterLink to={`/sites/${id}/leads`}>View Leads</RouterLink>
 	}, [id])
 	return (
 		<AppBar position="sticky">
-			<Container fixed>
+			<Container>
 				<Toolbar disableGutters>
-					<Box sx={{ flexGrow: 1 }}>
+					<Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'row' }}>
 						<RouterLink
 							to="/sites"
+							sx={{ opacity: id ? 1 : 0, pointerEvents: id ? 'auto' : 'none' }}
 						>
 							<ArrowBackIcon />
 						</RouterLink>

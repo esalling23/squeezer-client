@@ -11,9 +11,17 @@ const SitesContainer = () => {
 	const site = useMemo(() => getSite(id), [id, getSite])
 
 	return (
-		<Box sx={{width: '100%', position: 'relative'}}>
+		<Box sx={{
+			width: 1, 
+			height: 'calc(100vh - 70px)', 
+			position: 'relative',
+			display: 'flex',
+			flexDirection: 'column'
+		}}>
 			<SiteAppBar site={site} />
-			<Outlet />
+			<Box sx={{ width: 1, flexGrow: 1 }}>
+				<Outlet />
+			</Box>
 		</Box>
 	)
 }

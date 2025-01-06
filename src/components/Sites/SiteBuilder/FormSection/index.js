@@ -1,35 +1,47 @@
-import React, { useEffect, useMemo, useState } from 'react'
-import axios from 'axios'
-import { useParams, useNavigate, useOutletContext } from 'react-router-dom'
+import React, { useCallback, useMemo } from 'react'
+import { HexColorPicker } from "react-colorful";
 
 import { Box, Button, LinearProgress, Stack } from '@mui/material';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
 import { useAppContext } from '../../../../context/AppContext';
 import { useUserContext } from '../../../../context/UserContext';
 import formSections from '../builderStaticInputs';
 import FormTextInput from './FormTextInput';
 import FormUploadInput from './FormUploadInput';
+import { updateSite } from '../../../../api/sites';
+import FormColorInput from './FormColorInput';
 
-const FormSection = ({ section, setSiteData, site }) => {
-	const { user: { token }, loading, refreshData } = useUserContext();
+const FormSection = ({ section, setSiteData, site, setStyleData, style }) => {
+	const { user, loading } = useUserContext();
 	const { addAlert } = useAppContext();
 
-	const [formData, setFormData] = useState({})
+	const handleFormChange = useCallback((data) => {
+		setSiteData(curr => ({ ...curr, ...data }))
+	}, [setSiteData])
 
-	const navigate = useNavigate();
+	const handleStyleChange = useCallback((data) => {
+		setStyleData(curr => ({ ...curr, ...data }))
+	}, [setStyleData])
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
+		// Need to use form data to handle any files etc.
+		const siteChanges = new FormData();
+
+		console.log(site)
+
+		for (const key in site) {
+			siteChanges.append(key, site[key])
+		}
+
+		const data = {
+			site: siteChanges,
+			style
+		}
+
 		try {
-			const url = `/api/sites${site ? `/${site.id}` : ''}`;
-			const method = site ? 'patch' : 'post'
-			const res = await axios({
-				url,
-				method,
-				data: formData,
-				headers: { 'Authorization': 'Bearer ' + token } 
-			});
+			const res = await updateSite(user, site.id, data)
 			addAlert({
 				heading: 'Success!',
 				message: `Site ${site ? 'updated' : 'created'}!`,
@@ -39,11 +51,6 @@ const FormSection = ({ section, setSiteData, site }) => {
 				...curr, 
 				...res.site
 			}))
-			if (site) {
-				refreshData();
-			} else {
-				navigate(`/sites/${res.data.id}`);
-			}
 		} catch (error) {
 			addAlert({
 				heading: 'Something went wrong',
@@ -51,10 +58,6 @@ const FormSection = ({ section, setSiteData, site }) => {
 				severity: 'error',
 			})
 		}
-	}
-
-	const handleCopyEmbed = () => {
-		navigator.clipboard.writeText('')
 	}
 
 	const formFieldsContent = useMemo(() => {
@@ -66,60 +69,49 @@ const FormSection = ({ section, setSiteData, site }) => {
 					return <FormUploadInput
 						key={`${section}${input.name}`}
 						{...input}
-						setFormData={setFormData}
+						handleFormChange={handleFormChange}
 						startingValue={site[input.name]}
 					/>
-				default:
+				case 'text':
+				case 'email':
 					return <FormTextInput
 						key={`${section}${input.name}`}
 						{...input}
-						setFormData={setFormData}
+						handleFormChange={handleFormChange}
 						startingValue={site[input.name]}
 					/>
+				case 'color':
+					return <FormColorInput 
+						key={`${section}${input.name}`}
+						{...input} 
+						handleFormChange={handleStyleChange} 
+						startingValue={style[input.name]}
+					/>;
+				default: 
+					return <>{input.component}</>
 			}
 		})
-	}, [section, site])
-
-	const extraSectionContent = useMemo(() => {
-		switch (section) {
-			case 'launch':
-				return (
-					<Box 
-						sx={{ 
-							height: '300px', 
-							width: 1, 
-							overflow: 'scroll', 
-							position: 'relative',
-							border: '1px solid orange',
-							background: 'white',
-							p: 2
-						}}>
-						<Button 
-							onClick={handleCopyEmbed} 
-							sx={{ top: 0, right: 0, position: 'absolute' }}
-						>
-							<ContentCopyIcon />
-						</Button>
-						{/* Embed content */}
-						{'<embed></embed>'}
-					</Box>
-				)
-			default: 
-		}
-	}, [section])
+	}, [section, site, handleFormChange, handleStyleChange, style])
 
 	if (loading) {
 		return <LinearProgress />
 	}
 
 	return (
-		<Box sx={{ width: '100%', my: 2, flexGrow: 1 }}>
+		<Box sx={{ width: '100%', height: 1, flexGrow: 1 }}>
 			{loading ? (<LinearProgress />) : (<>
-				{extraSectionContent}
-				<form onSubmit={handleSubmit}>
-					<Stack>
+				<form onSubmit={handleSubmit} style={{ height: '100%', width: '100%' }}>
+					<Stack 
+						sx={{ position: 'relative', height: 1 }}
+						spacing={{ xs: 1, sm: 2 }}
+						useFlexGap
+					>
 						{formFieldsContent}
-						<Button type="submit">Save</Button>
+						<Button 
+							sx={{ width: 1, height: '50px' }} 
+							variant="contained" 
+							type="submit"
+						>Save</Button>
 					</Stack>
 				</form>
 			</>)}
