@@ -19,7 +19,7 @@ import RouterLink from '../shared/RouterLink';
 
 const SignIn = () => {
 	const { addAlert } = useAppContext();
-	const { setUser } = useUserContext();
+	const { login } = useUserContext();
 
 	const [data, handleChange, resetData] = useFormData({
 		email: '',
@@ -32,7 +32,7 @@ const SignIn = () => {
 		console.log(data);
 
 		signIn(data)
-			.then((res) => setUser(res.data.user))
+			.then((res) => login(res.data.user))
 			.then(() =>
 				addAlert({
 					heading: 'Sign In Success',

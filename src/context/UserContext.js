@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import useAuthCookie from '../hooks/useAuthCookie';
+import { indexSites } from '../api/sites';
 
 const UserContext = createContext();
 
@@ -9,7 +10,7 @@ export const useUserContext = () => {
 };
 
 export const UserProvider = ({ children }) => {
-	const { user, setUser, clearUser } = useAuthCookie();
+	const { user, login, logout } = useAuthCookie();
 
 	const [sites, setSites] = useState(null);
 	const [loading, setLoading] = useState(true);
@@ -22,9 +23,7 @@ export const UserProvider = ({ children }) => {
 		}
 		setLoading(true);
 		try {
-			const response = await axios.get('/api/sites/user', {
-				headers: { 'Authorization': 'Bearer ' + user.token } 
-			});
+			const response = await indexSites(user);
 			setSites(response.data);
 		} catch (err) {
 			setError(err);
@@ -45,11 +44,11 @@ export const UserProvider = ({ children }) => {
 		getSite,
 		loading,
 		error,
-		clearUser,
-		setUser,
+		logout,
+		login,
 		user,
 		isAuthenticated: !!user,
-	}), [refreshData, sites, getSite, loading, error, user, clearUser, setUser]);
+	}), [refreshData, sites, getSite, loading, error, user, login, logout]);
 
 	return (
 		<UserContext.Provider value={value}>

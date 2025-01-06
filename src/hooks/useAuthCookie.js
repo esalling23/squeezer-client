@@ -1,25 +1,26 @@
-import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
+import { useLocalStorage } from './useLocalStorage';
 
 const useAuthCookie = () => {
-  const [user, setUser] = useState(null);
+	const navigate = useNavigate();
+  const [user, setUser] = useLocalStorage("user", null);
 
-	const clearUser = () => {
-		setUser(null)
-		window.localStorage.setItem('user', null)
-	}
+	// call this function when you want to authenticate the user
+	const login = async (data) => {
+		setUser(data);
+		navigate("/sites");
+	};
 
-	useEffect(() => {
-		if (user) {
-			window.localStorage.setItem('user', JSON.stringify(user))
-		} else if (!user && window.localStorage.getItem('user')) {
-			setUser(JSON.parse(window.localStorage.getItem('user')));
-		}
-	}, [user])
+	// call this function to sign out logged in user
+	const logout = () => {
+		setUser(null);
+		navigate("/", { replace: true });
+	};
 
 	return {
 		user,
-		setUser,
-		clearUser
+		logout,
+		login
 	}
 }
 

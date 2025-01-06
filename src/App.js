@@ -22,12 +22,13 @@ import { useAppContext } from './context/AppContext';
 import { useUserContext } from './context/UserContext';
 import Grid from '@mui/material/Grid2';
 import SiteBuilder from './components/Sites/SiteBuilder';
-import { Fade } from '@mui/material';
+import { CssBaseline, Fade } from '@mui/material';
+import AuthenticatedRoute from './components/shared/AuthenticatedRoute';
+import LeadsView from './components/Sites/LeadsView';
 
 const App = () => {
   const { alerts } = useAppContext();
 	const { loading, isAuthenticated } = useUserContext();
-	const location = useLocation();
 
 	const msgAlertPopups = alerts.map((msgAlert) => (
 		<AutoDismissAlert
@@ -47,12 +48,24 @@ const App = () => {
 	));
 	const authenticatedRoutes = (
 		<>
-			<Route path='/sign-out' element={<SignOut />} />
-			<Route path='/account' element={<Account />} />
-			<Route path='/sites' element={<SitesContainer />}>
-				<Route path='/sites' exact element={<SiteList />} />
-				<Route path='/sites/create' exact element={<SiteBuilder isNew />} />
-				<Route path='/sites/:id' exact element={<SiteBuilder />} />
+			<Route path='/sign-out' element={
+				<AuthenticatedRoute><SignOut /></AuthenticatedRoute>
+			} />
+			<Route path='/account' element={
+				<AuthenticatedRoute><Account /></AuthenticatedRoute>
+			} />
+			<Route path='/sites' element={
+				<AuthenticatedRoute><SitesContainer /></AuthenticatedRoute>
+			}>
+				<Route path='/sites' exact element={
+					<AuthenticatedRoute><SiteList /></AuthenticatedRoute>
+				} />
+				<Route path='/sites/:id' exact element={
+					<AuthenticatedRoute><SiteBuilder /></AuthenticatedRoute>
+				} />
+				<Route path='/sites/:id/leads' exact element={
+					<AuthenticatedRoute><LeadsView /></AuthenticatedRoute>
+				} />
 			</Route>
 		</>
 	);
@@ -65,6 +78,7 @@ const App = () => {
 
   return (
 		<ThemeProvider theme={theme}>
+			<CssBaseline />
 			<Fade in={!loading}>
 				<Box>
 					<MenuAppBar />
@@ -73,12 +87,13 @@ const App = () => {
 						{msgAlertPopups}
 					</AnimatePresence>
 
-					<Container maxWidth="xl" sx={{ p: 0, mb: 8 }}>
+					<Container maxWidth="xl" sx={{ p: 0, mb: 8, '&.MuiContainer-root': { p: 0 } }}>
 						<Grid container sx={{ width: '100%' }} justifyContent="center" alignItems="center">
 							<Routes>
 								<Route path='/' element={<Home />} />
 								{contentPageRoutes}
-								{isAuthenticated ? authenticatedRoutes : preloginRoutes}
+								{authenticatedRoutes}
+								{preloginRoutes}
 							</Routes>
 						</Grid>
 					</Container>
