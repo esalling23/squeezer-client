@@ -13,16 +13,26 @@ export const AppProvider = ({ children }) => {
     setAlerts(alerts => alerts.filter((msg) => msg.id !== id))
   }, [])
 
+
   const addAlert = useCallback(({ heading, message, variant, severity }) => {
     const id = uuid()
     setAlerts(alerts => [...alerts, { heading, message, variant, severity, id }])
   }, [])
 
+	const addGenericError = useCallback((message) => {
+		addAlert({
+			heading: 'Something went wrong...',
+			message, 
+			severity: 'error'
+		})
+	}, [addAlert])
+
 	const value = useMemo(() => ({
 		addAlert,
+		addGenericError,
 		deleteAlert,
 		alerts
-	}), [addAlert, deleteAlert, alerts]);
+	}), [addAlert, addGenericError, deleteAlert, alerts]);
 
 	return (
 		<AppContext.Provider value={value}>
