@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { styled } from '@mui/material/styles';
 import MuiDrawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
@@ -84,6 +84,62 @@ export default function MiniDrawer({
     setOpen(curr => !curr);
   };
 
+  const drawerOptions = useMemo(() => {
+    return Object.keys(builderSections).map((key, index) => {
+      const { icon: Icon } = builderSections[key]
+      return (
+        <ListItem key={key} disablePadding sx={{ display: 'block' }}>
+          <ListItemButton
+            onClick={() => setSection(key)}
+            sx={[
+              {
+                minHeight: 48,
+                px: 2.5,
+              },
+              open
+                ? {
+                    justifyContent: 'initial',
+                  }
+                : {
+                    justifyContent: 'center',
+                  },
+            ]}
+          >
+            <ListItemIcon
+              sx={[
+                {
+                  minWidth: 0,
+                  justifyContent: 'center',
+                },
+                open
+                  ? {
+                      mr: 3,
+                    }
+                  : {
+                      mr: 'auto',
+                    },
+              ]}
+            >
+              <Icon fontSize="medium" />
+            </ListItemIcon>
+            <ListItemText
+              primary={key[0].toUpperCase() + key.slice(1)}
+              sx={[
+                open
+                  ? {
+                      opacity: 1,
+                    }
+                  : {
+                      opacity: 0,
+                    },
+              ]}
+            />
+          </ListItemButton>
+        </ListItem>
+      )
+    })
+  }, [open, setSection])
+
   return (
     <>
       <Drawer variant="permanent" open={open} sx={{
@@ -101,56 +157,7 @@ export default function MiniDrawer({
         </DrawerHeader>
         <Divider />
         <List>
-          {Object.keys(builderSections).map((key, index) => (
-            <ListItem key={key} disablePadding sx={{ display: 'block' }}>
-              <ListItemButton
-								onClick={() => setSection(key)}
-                sx={[
-                  {
-                    minHeight: 48,
-                    px: 2.5,
-                  },
-                  open
-                    ? {
-                        justifyContent: 'initial',
-                      }
-                    : {
-                        justifyContent: 'center',
-                      },
-                ]}
-              >
-                <ListItemIcon
-                  sx={[
-                    {
-                      minWidth: 0,
-                      justifyContent: 'center',
-                    },
-                    open
-                      ? {
-                          mr: 3,
-                        }
-                      : {
-                          mr: 'auto',
-                        },
-                  ]}
-                >
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText
-                  primary={key[0].toUpperCase() + key.slice(1)}
-                  sx={[
-                    open
-                      ? {
-                          opacity: 1,
-                        }
-                      : {
-                          opacity: 0,
-                        },
-                  ]}
-                />
-              </ListItemButton>
-            </ListItem>
-          ))}
+          {drawerOptions}
         </List>
       </Drawer>
     </>
