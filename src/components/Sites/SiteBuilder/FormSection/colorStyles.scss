@@ -1,0 +1,23 @@
+.formColorInput {
+	.react-colorful {
+		height: 30px;
+		margin-top: 15px;
+	}
+	.react-colorful__saturation {
+		border-bottom-width: 2px;
+	}
+	.react-colorful__saturation-pointer {
+		height: 15px;
+		width: 15px;
+	}
+	.react-colorful__hue {
+		height: 10px;
+		border-radius: 0 0 4px 4px;
+	}
+	.react-colorful__hue-pointer {
+		width: 8px;
+		height: 10px;
+		border-width: 2px;
+		border-radius: 0;
+	}
+}
