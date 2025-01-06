@@ -35,6 +35,7 @@ export const updateSite = (user, siteId, data) => {
     method: 'patch',
     data,
     headers: {
+      'Content-Type': 'multipart/form-data', 
       Authorization: `Bearer ${user.token}`
     }
   })

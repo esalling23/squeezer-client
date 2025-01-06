@@ -35,13 +35,14 @@ const FormSection = ({ section, setSiteData, site, setStyleData, style }) => {
 			siteChanges.append(key, site[key])
 		}
 
-		const data = {
-			site: siteChanges,
-			style
-		}
+    for (const [key, value] of siteChanges.entries()) {
+      console.log(key, value);
+    }
+
+		siteChanges.append('style', style)
 
 		try {
-			const res = await updateSite(user, site.id, data)
+			const res = await updateSite(user, site.id, siteChanges)
 			addAlert({
 				heading: 'Success!',
 				message: `Site ${site ? 'updated' : 'created'}!`,
@@ -49,7 +50,7 @@ const FormSection = ({ section, setSiteData, site, setStyleData, style }) => {
 			})
 			setSiteData(curr => ({
 				...curr, 
-				...res.site
+				...res.data.site
 			}))
 		} catch (error) {
 			addAlert({
@@ -62,7 +63,7 @@ const FormSection = ({ section, setSiteData, site, setStyleData, style }) => {
 
 	const formFieldsContent = useMemo(() => {
 		if (!section || !site) return '';
-		const sectionFields = formSections[section];
+		const sectionFields = formSections[section]?.elements || [];
 		return sectionFields.map((input) => {
 			switch (input.type) {
 				case 'image': 
