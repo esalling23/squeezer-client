@@ -9,6 +9,14 @@ export const indexSites = (user) => {
     }
   })
 }
+export const getSite = (user, id) => {
+  return axios({
+    url: '/api/sites/' + id,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    }
+  })
+}
 
 export const createSite = (user) => {
   return axios({
@@ -25,7 +33,7 @@ export const updateSite = (user, siteId, data) => {
   return axios({
     url: `/api/sites/${siteId}`,
     method: 'patch',
-    data: data,
+    data,
     headers: {
       Authorization: `Bearer ${user.token}`
     }
