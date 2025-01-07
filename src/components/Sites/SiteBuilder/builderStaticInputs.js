@@ -25,9 +25,10 @@ const builderStaticInputs = {
     icon: FormatColorFillIcon,
     elements: [
       { name: 'primaryBrandColor', label: 'Background Color', type: 'color' },
-      { name: 'textColor', label: 'Text color', type: 'color' },
-      { name: 'headingFont', label: 'Heading Text Font', type: 'text' },
-      { name: 'bodyFont', label: 'Body Text Font', type: 'text' },
+      { name: 'headingTextColor', label: 'Heading Text Color', type: 'color' },
+      { name: 'bodyTextColor', label: 'Body Text Color', type: 'color' },
+      { name: 'headingTextFont', label: 'Heading Text Font', type: 'text' },
+      { name: 'bodyTextFont', label: 'Body Text Font', type: 'text' },
     ]
   },
 	launch: {

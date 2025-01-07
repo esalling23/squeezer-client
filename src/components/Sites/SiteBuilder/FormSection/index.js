@@ -1,5 +1,4 @@
 import React, { useCallback, useMemo } from 'react'
-import { HexColorPicker } from "react-colorful";
 
 import { Box, Button, LinearProgress, Stack } from '@mui/material';
 
@@ -29,17 +28,14 @@ const FormSection = ({ section, setSiteData, site, setStyleData, style }) => {
 		// Need to use form data to handle any files etc.
 		const siteChanges = new FormData();
 
-		console.log(site)
-
 		for (const key in site) {
 			siteChanges.append(key, site[key])
 		}
+    // for (const [key, value] of siteChanges.entries()) {
+    //   console.log(key, value);
+    // }
 
-    for (const [key, value] of siteChanges.entries()) {
-      console.log(key, value);
-    }
-
-		siteChanges.append('style', style)
+		siteChanges.append('style', JSON.stringify(style))
 
 		try {
 			const res = await updateSite(user, site.id, siteChanges)

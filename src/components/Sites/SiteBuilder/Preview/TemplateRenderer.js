@@ -1,12 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Box, CircularProgress } from '@mui/material';
-// import Mustache from 'mustache'
 import Handlebars from 'handlebars';
 
-// import { compile } from 'handlebars-to-jsx';
-// import HandlebarsReact from 'handlebars-react';
-
-import { getSiteCss, getSiteTemplate, getSiteVariables } from '../../../../api/templates';
+import { getBaseCssVars, getSiteCss, getSiteTemplate, getUserCssVars } from '../../../../api/templates';
 import { useAppContext } from '../../../../context/AppContext';
 import { useParams } from 'react-router';
 
@@ -15,7 +11,6 @@ const TemplateRenderer = ({ templateName, data }) => {
 	const { id: siteId } = useParams();
   const [templateContent, setTemplateContent] = useState('');
   const [htmlContent, setHtmlContent] = useState('');
-  // const [cssContent, setCssContent] = useState('');
 
 	const loadedRef = useRef(false);
 
@@ -29,17 +24,23 @@ const TemplateRenderer = ({ templateName, data }) => {
     const loadTemplate = async () => {
       try {
         // Fetch Handlebars template and CSS
-        const [templateResponse, cssResponse, variablesResponse] = await Promise.all([
+        const [
+          templateResponse, 
+          cssResponse, 
+          baseCssVarsResponse,
+          userCssVarsResponse
+        ] = await Promise.all([
           getSiteTemplate(templateName),
 					getSiteCss(templateName),
-					getSiteVariables(templateName),
+					getBaseCssVars(templateName),
+					getUserCssVars(templateName),
         ]);
 
 				setTemplateContent(templateResponse.data)
 
         // Inject base CSS into the page
         style = document.createElement('style');
-        style.textContent = variablesResponse.data + cssResponse.data;
+        style.textContent = baseCssVarsResponse.data + userCssVarsResponse.data + cssResponse.data;
         document.head.appendChild(style);
 
 				loadedRef.current = true;
