@@ -41,7 +41,7 @@ export const updateSite = (user, siteId, data) => {
   })
 }
 
-export const removeSite = (user, siteId) => {
+export const deleteSite = (user, siteId) => {
   return axios({
     url: `/api/sites/${siteId}`,
     method: 'delete',

@@ -1,15 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import Stack from '@mui/material/Stack'
 import RouterLink from '../../shared/RouterLink';
 import { useUserContext } from '../../../context/UserContext';
-import { Box, LinearProgress, ListItem, Typography } from '@mui/material';
+import { Box, Button, LinearProgress, ListItem, Typography } from '@mui/material';
 import Divider from '@mui/material/Divider';
 
 import WebIcon from '@mui/icons-material/Web';
+import ConfirmDeleteSiteModal from '../ConfirmDeleteSiteModal';
 
 const SiteList =  () => {
-	const { sites, loading } = useUserContext();
+	const { sites, loading, refreshData } = useUserContext();
+
+  const [deleteSiteId, setDeleteSiteId] = useState(null);
+
+  const handleDeleteClick = id => () => {
+    setDeleteSiteId(id)
+  }
 
 	if (loading) {
 		return <LinearProgress />
@@ -17,8 +24,9 @@ const SiteList =  () => {
 
 	const listItems = sites?.map(site => (
     <>
-      <ListItem key={site.id}>
-        <RouterLink to={`/sites/${site.id}`} sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+      <ListItem key={site.id} sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+        <RouterLink 
+          to={`/sites/${site.id}`} sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', flexGrow: 1 }}>
           {site.heroImage ? (
             <img src={site.heroImage} height="100" width="100" alt="hero" /> 
           ) : <Box
@@ -34,20 +42,44 @@ const SiteList =  () => {
           >
             <WebIcon fontSize="large"/>
           </Box>}
-          {site.pageTitle}
+          <Typography
+            variant="h5"
+            sx={{ ml: 3 }}
+          >
+            {site.pageTitle}
+          </Typography>
         </RouterLink>
+        <Button 
+          variant="contained" 
+          color="error"
+          onClick={handleDeleteClick(site.id)}
+          sx={{ width: 50, }}
+        >
+          Delete
+        </Button>
       </ListItem>
       <Divider variant='middle'/>
     </>
 	))
 
+  const handleClose = () => {
+    setDeleteSiteId(null)
+    refreshData()
+  }
+
 	return (
-		<Stack>
-			{listItems?.length > 0 ? listItems : <Typography 
-        variant="h5" 
-        sx={{ textAlign: 'center', py: 3 }}
-      >No sites...yet!</Typography>}
-		</Stack>
+    <>
+      <ConfirmDeleteSiteModal
+        siteId={deleteSiteId}
+        handleClose={handleClose}
+      />
+      <Stack>
+        {listItems?.length > 0 ? listItems : <Typography 
+          variant="h5" 
+          sx={{ textAlign: 'center', py: 3 }}
+        >No sites...yet!</Typography>}
+      </Stack>
+    </>
 	);
 }
 
