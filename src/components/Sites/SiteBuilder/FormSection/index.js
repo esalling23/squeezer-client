@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo } from 'react'
 
-import { Box, Button, LinearProgress, Stack } from '@mui/material';
+import { Box, Button, Divider, LinearProgress, Stack } from '@mui/material';
 
 import { useAppContext } from '../../../../context/AppContext';
 import { useUserContext } from '../../../../context/UserContext';
@@ -9,6 +9,7 @@ import FormTextInput from './FormTextInput';
 import FormUploadInput from './FormUploadInput';
 import { updateSite } from '../../../../api/sites';
 import FormColorInput from './FormColorInput';
+import FormFontInput from './FormFontInput';
 
 const FormSection = ({ section, setSiteData, site, setStyleData, style }) => {
 	const { user, loading } = useUserContext();
@@ -57,53 +58,77 @@ const FormSection = ({ section, setSiteData, site, setStyleData, style }) => {
 		}
 	}
 
+  const getFormFieldContent = useCallback((input) => {
+    switch (input.type) {
+      case 'image': 
+        return <FormUploadInput
+          key={`${section}${input.name}`}
+          {...input}
+          handleFormChange={handleFormChange}
+          startingValue={site[input.name]}
+        />
+      case 'text':
+      case 'email':
+        return <FormTextInput
+          key={`${section}${input.name}`}
+          {...input}
+          handleFormChange={handleFormChange}
+          startingValue={site[input.name]}
+        />
+      case 'color':
+        return <FormColorInput 
+          key={`${section}${input.name}`}
+          {...input} 
+          handleFormChange={handleStyleChange} 
+          startingValue={style[input.name]}
+        />;
+      case 'font': 
+        return <FormFontInput
+          key={`${section}${input.name}`}
+          {...input}
+          handleFormChange={handleStyleChange} 
+          startingValue={style[input.name]}
+        />
+      default: 
+        return <>{input.component}</>
+    }
+  }, [section, site, handleFormChange, handleStyleChange, style])
+
 	const formFieldsContent = useMemo(() => {
 		if (!section || !site) return '';
 		const sectionFields = formSections[section]?.elements || [];
-		return sectionFields.map((input) => {
-			switch (input.type) {
-				case 'image': 
-					return <FormUploadInput
-						key={`${section}${input.name}`}
-						{...input}
-						handleFormChange={handleFormChange}
-						startingValue={site[input.name]}
-					/>
-				case 'text':
-				case 'email':
-					return <FormTextInput
-						key={`${section}${input.name}`}
-						{...input}
-						handleFormChange={handleFormChange}
-						startingValue={site[input.name]}
-					/>
-				case 'color':
-					return <FormColorInput 
-						key={`${section}${input.name}`}
-						{...input} 
-						handleFormChange={handleStyleChange} 
-						startingValue={style[input.name]}
-					/>;
-				default: 
-					return <>{input.component}</>
-			}
+		return sectionFields.map((input, i) => {
+			return (
+        <>
+          {getFormFieldContent(input)}
+          {i < sectionFields.length - 1 && <Divider />}
+        </>
+      )
 		})
-	}, [section, site, handleFormChange, handleStyleChange, style])
+	}, [section, site, getFormFieldContent])
 
 	if (loading) {
 		return <LinearProgress />
 	}
 
 	return (
-		<Box sx={{ width: '100%', height: 1, flexGrow: 1 }}>
+		<Box sx={{ width: '100%', height: 1, flexGrow: 1, mb: 5, backgroundColor: 'white' }}>
 			{loading ? (<LinearProgress />) : (<>
-				<form onSubmit={handleSubmit} style={{ height: '100%', width: '100%' }}>
+				<form 
+          onSubmit={handleSubmit} 
+          style={{ height: '100%', width: '100%', overflowY: 'scroll', padding: '2rem' }}
+        >
 					<Stack 
-						sx={{ position: 'relative', height: 1 }}
-						spacing={{ xs: 1, sm: 2 }}
+						sx={{ position: 'relative', height: 'fit-content' }}
+						spacing={{ xs: 5 }}
 						useFlexGap
 					>
-						{formFieldsContent}
+						<Stack
+              spacing={{ xs: 1, md: 2 }}
+              useFlexGap
+            >
+              {formFieldsContent}
+            </Stack>
 						<Button 
 							sx={{ width: 1, height: '50px' }} 
 							variant="contained" 

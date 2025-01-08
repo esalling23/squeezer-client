@@ -7,6 +7,7 @@ import { getSite } from "../../../api/sites";
 import { useUserContext } from "../../../context/UserContext";
 import Preview from "./Preview";
 import { useAppContext } from "../../../context/AppContext";
+import { isFontDoc } from "../../../lib/styles";
 
 const SectionTitle = ({ children, color }) => {
 	return <Typography 
@@ -18,7 +19,6 @@ const SectionTitle = ({ children, color }) => {
 
 const SectionContainer = styled(Grid2)(({ theme, bgcolor }) => ({
 	padding: '10px', 
-	bgcolor: 'orange', 
 	display: 'flex',
 	flexDirection: 'column',
 	minWidth: '400px',
@@ -31,7 +31,10 @@ function SiteBuilder() {
 
 	const [builderSection, setBuilderSection] = useState(null);
 	const [site, setSite] = useState(null);
+
+  // Map of user-set site data like page title, tagline, hero image, etc.
 	const [siteData, setSiteData] = useState({});
+  // Map of user-set style data like brand color, font family, etc.
 	const [styleData, setStyleData] = useState({});
 	
 	useEffect(() => {
@@ -56,10 +59,11 @@ function SiteBuilder() {
 		for(const key in styleData)
 		{
 			if (styleData[key] === null) continue;
+      const value = isFontDoc(styleData[key]) ? styleData[key].family : styleData[key]
 
 			const propName = `--${key.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()}`;
 			document.documentElement.style
-				.setProperty(propName, styleData[key]);
+				.setProperty(propName, value);
 		}
 	}, [styleData])
 
@@ -83,7 +87,7 @@ function SiteBuilder() {
 				</SectionContainer>
 				<SectionContainer size="grow" bgcolor='background.default'>
 					<SectionTitle>PREVIEW</SectionTitle>
-					<Preview data={siteData} />
+					<Preview data={siteData} styles={styleData} />
 				</SectionContainer>
 			</Grid2>
 		</Fade>

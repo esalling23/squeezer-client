@@ -27,8 +27,8 @@ const builderStaticInputs = {
       { name: 'primaryBrandColor', label: 'Background Color', type: 'color' },
       { name: 'headingTextColor', label: 'Heading Text Color', type: 'color' },
       { name: 'bodyTextColor', label: 'Body Text Color', type: 'color' },
-      { name: 'headingTextFont', label: 'Heading Text Font', type: 'text' },
-      { name: 'bodyTextFont', label: 'Body Text Font', type: 'text' },
+      { name: 'headingTextFont', label: 'Heading Text Font', type: 'font' },
+      { name: 'bodyTextFont', label: 'Body Text Font', type: 'font' },
     ]
   },
 	launch: {

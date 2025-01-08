@@ -5,8 +5,9 @@ import Handlebars from 'handlebars';
 import { getBaseCssVars, getSiteCss, getSiteTemplate, getUserCssVars } from '../../../../api/templates';
 import { useAppContext } from '../../../../context/AppContext';
 import { useParams } from 'react-router';
+import { isFontDoc } from '../../../../lib/styles';
 
-const TemplateRenderer = ({ templateName, data }) => {
+const TemplateRenderer = ({ templateName, data, styles }) => {
 	const { addAlert } = useAppContext();
 	const { id: siteId } = useParams();
   const [templateContent, setTemplateContent] = useState('');
@@ -40,7 +41,9 @@ const TemplateRenderer = ({ templateName, data }) => {
 
         // Inject base CSS into the page
         style = document.createElement('style');
-        style.textContent = baseCssVarsResponse.data + userCssVarsResponse.data + cssResponse.data;
+        style.textContent = baseCssVarsResponse.data 
+          + userCssVarsResponse.data 
+          + cssResponse.data;
         document.head.appendChild(style);
 
 				loadedRef.current = true;
@@ -68,10 +71,20 @@ const TemplateRenderer = ({ templateName, data }) => {
 			acc[key] = (value instanceof File || value instanceof Blob) ? URL.createObjectURL(value) : value;
 			return acc;
 		}, {});
+
+    const fontLinks = Object.keys(styles).reduce((fonts, key) => {
+      if (isFontDoc(styles[key])) {
+        return [...fonts, styles[key].url]
+      }
+      return fonts
+    }, [])
 	
-		const compiledHtml = Handlebars.compile(templateContent)({ site: displayData });
+		const compiledHtml = Handlebars.compile(templateContent)({ 
+      site: displayData,
+      fontLinks
+    });
 		setHtmlContent(compiledHtml);
-	}, [templateContent, data])
+	}, [templateContent, styles, data])
 
 	if (!htmlContent) {
 		return <CircularProgress color="inherit" />

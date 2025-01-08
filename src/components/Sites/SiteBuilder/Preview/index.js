@@ -1,11 +1,9 @@
-import React, { useEffect, useMemo, useState } from "react";
-import Mustache from 'mustache';
+import React from "react";
 
-import { Box, CircularProgress, Paper } from "@mui/material";
-import { getSiteTemplate } from '../../../../api/templates.js'
+import { Box, Paper } from "@mui/material";
 import TemplateRenderer from "./TemplateRenderer.js";
 
-const Preview = ({ data }) => {
+const Preview = ({ data, styles }) => {
   return <Box 
 		className="preview"
 		component={Paper}
@@ -29,7 +27,7 @@ const Preview = ({ data }) => {
 				borderRadius: 'inherit',
 				borderBottomLeftRadius: 0,
 				borderBottomRightRadius: 0,
-				height: '30px',
+				minHeight: '20px',
 				pl: 1,
 				border: 0,
 				borderBottom: 1,
@@ -53,7 +51,7 @@ const Preview = ({ data }) => {
 				/>)}
 		</Box>
 
-		<TemplateRenderer templateName="template1" data={data} />
+		<TemplateRenderer templateName="template1" data={data} styles={styles} />
 	</Box>
 };
 
