@@ -58,7 +58,7 @@ function SiteBuilder() {
 	useEffect(() => {
 		for(const key in styleData)
 		{
-			if (styleData[key] === null) continue;
+			if (!styleData[key]) continue;
       const value = isFontDoc(styleData[key]) ? styleData[key].family : styleData[key]
 
 			const propName = `--${key.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()}`;
