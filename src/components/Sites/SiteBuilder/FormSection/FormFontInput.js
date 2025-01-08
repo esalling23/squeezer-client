@@ -40,12 +40,14 @@ const FormFontInput = ({
         name="family"
         label="Font Family Name"
         helperText="Example: Garramond, Arial, etc."
+        startingValue={startingValue?.family || ""}
         handleFormChange={handleChange}
       />
 			<FormTextInput 
         name="url"
         label="Font Delivery URL"
         helperText="Obtain from a font CDN like Google Fonts"
+        startingValue={startingValue?.url || ""}
         handleFormChange={handleChange}
       />
 		</Box>
