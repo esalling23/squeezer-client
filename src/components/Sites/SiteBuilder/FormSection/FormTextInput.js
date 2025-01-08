@@ -29,7 +29,11 @@ const FormTextInput = ({
           },
         }}
 			/>
-			{helperText && <Typography color='secondary.main'>{helperText}</Typography>}
+			{helperText && <Typography 
+        color='text.disabled' 
+        variant="overline"
+        sx={{ display: 'block' }}
+      >{helperText}</Typography>}
 		</Box>
 	)
 }

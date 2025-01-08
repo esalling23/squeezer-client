@@ -93,7 +93,14 @@ const TemplateRenderer = ({ templateName, data, styles }) => {
   return (
     <Box
 			dangerouslySetInnerHTML={{ __html: htmlContent }}
-			sx={{ flexGrow: 1, h: 1, '.site > *': { scale: 0.5 } }}
+			sx={{ 
+        flexGrow: 1, 
+        maxHeight: '100%', 
+        '.site > *': { 
+          scale: 0.8,
+          transformOrigin: 'top center'
+        } 
+      }}
 		/>
   );
 };

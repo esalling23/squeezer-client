@@ -99,10 +99,10 @@ const FormSection = ({ section, setSiteData, site, setStyleData, style }) => {
 		const sectionFields = formSections[section]?.elements || [];
 		return sectionFields.map((input, i) => {
 			return (
-        <>
+        <div style={{ display: 'contents' }} key={`container-${section}-${i}`}>
           {getFormFieldContent(input)}
           {i < sectionFields.length - 1 && <Divider />}
-        </>
+        </div>
       )
 		})
 	}, [section, site, getFormFieldContent])
