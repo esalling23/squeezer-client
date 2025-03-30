@@ -81,7 +81,14 @@ const SignIn = () => {
           <Button variant='contained' type='submit'>Submit</Button>
         </form>
       </Box>
-			<RouterLink to="/sign-up">New? Create an account here</RouterLink>
+			<RouterLink 
+        sx={{
+          mx: 0,
+          width: '100%',
+          textAlign: 'center'
+        }}
+        to="/sign-up"
+      >New? Create an account here</RouterLink>
     </Grid>
   )
 }

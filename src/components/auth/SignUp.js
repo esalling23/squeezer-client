@@ -51,9 +51,9 @@ const SignUp = () => {
 
   return (
     <Grid size={{ xs: 12, sm: 8, md: 4 }}>
-      <Box>
+      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
         <h3>Sign Up</h3>
-        <form onSubmit={onSignUp}>
+        <form onSubmit={onSignUp} style={{ width: '100%'}}>
           <FormGroup>
             <InputLabel>Email address</InputLabel>
             <TextField
@@ -90,7 +90,16 @@ const SignUp = () => {
           <Button variant='contained' type='submit'>Submit</Button>
         </form>
       </Box>
-			<RouterLink to="/sign-in">Have an account? Sign in now</RouterLink>
+			<RouterLink 
+        to="/sign-in"
+        sx={{
+          mx: 0,
+          my: 2,
+          display: 'block',
+          width: '100%',
+          textAlign: 'center'
+        }}
+      >Have an account? Sign in now</RouterLink>
 
     </Grid>
   )
