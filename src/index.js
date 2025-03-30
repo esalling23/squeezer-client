@@ -8,11 +8,19 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
 import './styles/index.css';
+
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './api/config'
 import { AppProvider } from './context/AppContext';
 import { UserProvider } from './context/UserContext';
+import isLocalEnv from './lib/isLocalEnv';
+
+if (isLocalEnv()) {
+  import('./styles/materialize-development.scss');
+} else {
+  import('./styles/materialize-production.scss');
+}
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
