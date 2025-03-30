@@ -1,22 +1,35 @@
 import React from 'react'
 import Button from '@mui/material/Button'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const LinkButton = ({
   to,
   onClick,
+  sx = {},
+  isExternal, 
+  component: Component = Button,
   ...rest
-}) => {
+}, ref) => {
 	const navigate = useNavigate()
   return (
-    <Button
+    <Component
+      ref={ref}
       {...rest}
+      sx={{
+        m: 1,
+        ...sx
+      }}
       onClick={(event) => {
-        onClick && onClick(event)
-        navigate(to)
+        if (onClick) return onClick(event)
+        
+        if (isExternal) {
+          window.open(to, '_blank', 'rel=noopener noreferrer')
+        } else {
+          navigate(to)
+        }
       }}
     />
   )
 }
 
-export default LinkButton
+export default React.forwardRef(LinkButton)

@@ -14,6 +14,7 @@ import ActionButtons from './ActionButtons';
 import RouterLink from '../shared/RouterLink';
 import { useUserContext } from '../../context/UserContext';
 import { Slide, styled, useMediaQuery } from '@mui/material';
+import CreateSiteButton from '../Sites/SiteActions/CreateSiteButton';
 
 const AppBar = styled(mAppBar)(({ theme }) => ({
   boxShadow: 'none',
@@ -74,6 +75,7 @@ const ResponsiveAppBar = () => {
 						</LogoText>
 
 						{isAuthenticated ? (<>
+              <CreateSiteButton sx={{ mr: 2 }}/>
 							<AccountMenu />
 						</>) : <>
 							<Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }} justifyContent="end">

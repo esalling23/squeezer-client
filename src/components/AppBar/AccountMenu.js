@@ -1,21 +1,19 @@
 import React, { useState } from 'react';
 
 import Avatar from '@mui/material/Avatar';
-import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import Account from '../auth/Account';
 import SiteList from '../Sites/SiteList';
 import SignOut from '../auth/SignOut';
 import RouterLink from '../shared/RouterLink';
 import { useUserContext } from '../../context/UserContext';
 
 const settings = [
-	{title: 'Account', path: "/account", component: Account },
-	{title: 'Sites', path: "/sites", component: SiteList },
+  {title: 'My Sites', path: "/sites", component: SiteList },
+	// {title: 'New Site', path: "/new-site" },
 	{title: 'Logout', path: "/sign-out", component: SignOut },
 ];
 

@@ -6,7 +6,10 @@ import { useNavigate } from "react-router";
 import { useAppContext } from "../../../../context/AppContext";
 import { useCallback } from "react";
 
-const CreateSiteButton = () => {
+const CreateSiteButton = ({
+  component: Component = Button,
+  sx = {}
+}) => {
 	const { addAlert } = useAppContext()
 	const { user, refreshData } = useUserContext();
 	const navigate = useNavigate();
@@ -26,10 +29,14 @@ const CreateSiteButton = () => {
 	}, [addAlert, navigate, user, refreshData])
 
 	return (
-		<Button onClick={onClick}>
+		<Component 
+      onClick={onClick} 
+      sx={sx}
+      variant="contained"
+    >
 			<PostAddIcon />
 			New Site
-		</Button>
+		</Component>
 	)
 }
 
