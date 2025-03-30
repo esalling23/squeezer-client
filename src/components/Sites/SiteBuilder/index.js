@@ -56,11 +56,12 @@ function SiteBuilder() {
 	}, [site])
 
 	useEffect(() => {
-		for(const key in styleData)
+		for (const key in styleData)
 		{
 			if (!styleData[key]) continue;
       const value = isFontDoc(styleData[key]) ? styleData[key].family : styleData[key]
 
+      // create css variables and inject into the document
 			const propName = `--${key.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()}`;
 			document.documentElement.style
 				.setProperty(propName, value);
@@ -73,7 +74,7 @@ function SiteBuilder() {
 
 	return (
 		<Fade in={true}>
-			<Grid2 container wrap="nowrap" position="relative" height={'calc(100vh - 140px)'}>
+			<Grid2 container wrap="wrap" position="relative" height={'calc(100vh - 140px)'}>
 				<ResponsiveDrawer setSection={setBuilderSection} />
 				<SectionContainer size="grow">
 					<SectionTitle color="text.default">{builderSection?.toUpperCase() || ''}</SectionTitle>

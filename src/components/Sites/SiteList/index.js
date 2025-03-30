@@ -1,22 +1,18 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import Stack from '@mui/material/Stack'
 import RouterLink from '../../shared/RouterLink';
 import { useUserContext } from '../../../context/UserContext';
-import { Box, Button, LinearProgress, ListItem, Typography } from '@mui/material';
+import { Box, LinearProgress, ListItem, Typography } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import Divider from '@mui/material/Divider';
-
 import WebIcon from '@mui/icons-material/Web';
-import ConfirmDeleteSiteModal from '../ConfirmDeleteSiteModal';
+import SiteActionsGroup, { SITE_ACTIONS } from '../SiteActions/SiteActionsGroup';
 
 const SiteList =  () => {
-	const { sites, loading, refreshData } = useUserContext();
-
-  const [deleteSiteId, setDeleteSiteId] = useState(null);
-
-  const handleDeleteClick = id => () => {
-    setDeleteSiteId(id)
-  }
+	const { sites, loading } = useUserContext();
+  const theme = useTheme()
+  console.log({ theme })
 
 	if (loading) {
 		return <LinearProgress />
@@ -24,7 +20,19 @@ const SiteList =  () => {
 
 	const listItems = sites?.map(site => (
     <>
-      <ListItem key={site.id} sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+      <ListItem 
+        key={site.id} 
+        sx={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          // backgroundColor: `${theme.palette.primary.main}`,
+          backdropFilter: 'brightness(90%)',
+          '&:hover': {
+            backdropFilter: 'brightness(95%)'
+          }
+        }}
+      >
         <RouterLink 
           to={`/sites/${site.id}`} sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', flexGrow: 1 }}>
           {site.heroImage ? (
@@ -37,7 +45,6 @@ const SiteList =  () => {
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
-
             }}
           >
             <WebIcon fontSize="large"/>
@@ -49,30 +56,21 @@ const SiteList =  () => {
             {site.pageTitle}
           </Typography>
         </RouterLink>
-        <Button 
-          variant="contained" 
-          color="error"
-          onClick={handleDeleteClick(site.id)}
-          sx={{ width: 50, }}
-        >
-          Delete
-        </Button>
+
+        <SiteActionsGroup
+          site={site}
+          actions={[
+            SITE_ACTIONS.LEADS,
+            SITE_ACTIONS.LIVE
+          ]}
+        />
       </ListItem>
-      <Divider variant='middle'/>
+      <Divider variant='middle' key={`divider-${site.id}`}/>
     </>
 	))
 
-  const handleClose = () => {
-    setDeleteSiteId(null)
-    refreshData()
-  }
-
 	return (
     <>
-      <ConfirmDeleteSiteModal
-        siteId={deleteSiteId}
-        handleClose={handleClose}
-      />
       <Stack>
         {listItems?.length > 0 ? listItems : <Typography 
           variant="h5" 
