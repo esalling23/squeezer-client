@@ -1,21 +1,23 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { signIn } from '../../api/auth'
 import { signInSuccess, signInFailure } from '../AutoDismissAlert/messages'
-
 
 import FormGroup from '@mui/material/FormGroup';
 import TextField from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
 import Button from '@mui/material/Button'
 import Grid from '@mui/material/Grid2';
-import LinkButton from '../shared/LinkButton';
 import useFormData from '../../hooks/useFormData';
 import { useAppContext } from '../../context/AppContext';
 import { useUserContext } from '../../context/UserContext';
 import { Box } from '@mui/material';
 import RouterLink from '../shared/RouterLink';
+
+const groupStyles = {
+  my: 1
+}
 
 const SignIn = () => {
 	const { addAlert } = useAppContext();
@@ -53,10 +55,10 @@ const SignIn = () => {
 
   return (
     <Grid size={{ xs: 12, sm: 8, md: 4 }}>
-      <Box>
+      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
         <h3>Sign In</h3>
-        <form onSubmit={onSignIn}>
-          <FormGroup>
+        <form onSubmit={onSignIn} style={{width: '100%'}}>
+          <FormGroup sx={groupStyles}>
             <InputLabel>Email address</InputLabel>
             <TextField
               required
@@ -67,7 +69,7 @@ const SignIn = () => {
               onChange={handleChange}
             />
           </FormGroup>
-          <FormGroup>
+          <FormGroup sx={groupStyles}>
             <InputLabel>Password</InputLabel>
             <TextField
               required
@@ -78,12 +80,14 @@ const SignIn = () => {
               onChange={handleChange}
             />
           </FormGroup>
-          <Button variant='contained' type='submit'>Submit</Button>
+          <Button sx={groupStyles} variant='contained' type='submit'>Submit</Button>
         </form>
       </Box>
 			<RouterLink 
         sx={{
           mx: 0,
+          my: 2,
+          display: 'block',
           width: '100%',
           textAlign: 'center'
         }}
