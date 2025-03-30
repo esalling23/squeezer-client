@@ -36,7 +36,7 @@ const MobileMenu = styled(Box)(({ theme }) => ({
 
 const LogoText = styled(Typography)(({ theme }) => ({
 	mr: 2,
-	flexGrow: 1,
+	flexGrow: 0,
 	fontFamily: 'monospace',
 	fontWeight: 700,
 	color: 'inherit',
@@ -63,69 +63,29 @@ const ResponsiveAppBar = () => {
 		<>
 			<AppBar position="sticky" ref={smMenuAnchorRef}>
 				<Container maxWidth="xl">
-					<Toolbar disableGutters>
-						<AdbIcon sx={{ mr: 1 }} />
-						<LogoText
-							variant="h6"
-							noWrap
-							component="a"
-							href="/#/"
-						>
-							Squeeze Page
-						</LogoText>
+					<Toolbar disableGutters sx={{ display: 'flex', justifyContent: 'space-between'}}>
+            <Box>
+              <AdbIcon sx={{ mr: 1 }} />
+              <LogoText
+                variant="h6"
+                noWrap
+                component="a"
+                href="/#/"
+                style={{ width: 'fit-content'}}
+              >
+                Squeeze Page
+              </LogoText>
+            </Box>
 
 						{isAuthenticated ? (<>
               <CreateSiteButton sx={{ mr: 2 }}/>
 							<AccountMenu />
 						</>) : <>
-							<Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }} justifyContent="end">
-								<IconButton
-									size="large"
-									aria-label="menu options"
-									aria-controls="menu-appbar"
-									aria-haspopup="true"
-									onClick={handleToggleNavMenu}
-									color="inherit"
-								>
-									<MenuIcon />
-								</IconButton>
-							</Box>
-							<Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-								{pages.map(({ title, path }) => (
-									<RouterLink
-										key={title}
-										to={path}
-										onClick={handleToggleNavMenu}
-									>
-										{title}
-									</RouterLink>
-								))}
-							</Box>
 							<ActionButtons />
 						</>}
 					</Toolbar>
 				</Container>
 			</AppBar>
-	
-			<Slide sx={{ display: { xs: 'block', md: 'none' } }} direction="down" in={mobileMenuOpen} mountOnEnter unmountOnExit>
-				<MobileMenu
-					id="menu-appbar"
-					anchorOrigin={{
-						vertical: 'bottom',
-						horizontal: 'left',
-					}}
-					mobileMenuOpen={mobileMenuOpen}
-				>
-					{pages.map(({ title, path }) => (
-						<MenuItem key={title} onClick={handleToggleNavMenu}>
-							<RouterLink 
-								sx={{ textAlign: 'center' }} 
-								to={path}
-							>{title}</RouterLink>
-						</MenuItem>
-					))}
-				</MobileMenu>
-			</Slide>
 		</>
   );
 }

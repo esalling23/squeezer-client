@@ -7,7 +7,7 @@ import LinkButton from '../shared/LinkButton';
 
 function ActionButtons() {
 	return ( 
-		<Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
+		<Box>
 			<ButtonGroup>
 				<LinkButton sx={{ mx: 1 }} variant="contained" to="/sign-in">Log in</LinkButton>
 				<LinkButton sx={{ mx: 1 }} variant="contained" to="/sign-up">Sign up</LinkButton>
