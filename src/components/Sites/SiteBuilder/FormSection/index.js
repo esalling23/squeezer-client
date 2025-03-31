@@ -12,7 +12,7 @@ import FormColorInput from './FormColorInput';
 import FormFontInput from './FormFontInput';
 
 const FormSection = ({ section, setSiteData, site, setStyleData, style }) => {
-	const { user, loading } = useUserContext();
+	const { user, loading, refreshData } = useUserContext();
 	const { addAlert } = useAppContext();
 
 	const handleFormChange = useCallback((data) => {
@@ -49,6 +49,10 @@ const FormSection = ({ section, setSiteData, site, setStyleData, style }) => {
 				...curr, 
 				...res.data.site
 			}))
+      // Refresh data if subdomain changes so live urls update
+      if (siteChanges.subdomain && site.subdomain !== siteChanges.subdomain) {
+        refreshData()
+      }
 		} catch (error) {
 			addAlert({
 				heading: 'Something went wrong',

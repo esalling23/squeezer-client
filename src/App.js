@@ -28,7 +28,7 @@ import LeadsView from './components/Sites/LeadsView';
 
 const App = () => {
   const { alerts } = useAppContext();
-	const { loading, isAuthenticated } = useUserContext();
+	const { loading } = useUserContext();
 
 	const msgAlertPopups = alerts.map((msgAlert) => (
 		<AutoDismissAlert
