@@ -4,15 +4,12 @@ import Stack from '@mui/material/Stack'
 import RouterLink from '../../shared/RouterLink';
 import { useUserContext } from '../../../context/UserContext';
 import { Box, LinearProgress, ListItem, Typography } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
 import Divider from '@mui/material/Divider';
 import WebIcon from '@mui/icons-material/Web';
 import SiteActionsGroup, { SITE_ACTIONS } from '../SiteActions/SiteActionsGroup';
 
 const SiteList =  () => {
 	const { sites, loading } = useUserContext();
-  const theme = useTheme()
-  console.log({ theme })
 
 	if (loading) {
 		return <LinearProgress />
