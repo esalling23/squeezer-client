@@ -62,7 +62,7 @@ const SiteActionsMenu = ({
             Leads
           </LinkButton>
         case SITE_ACTIONS.LIVE:
-          return <LinkButton component={Typography} to={getLiveUrl(site.subdomain)} key="view-live" sx={menuStyles}>
+          return <LinkButton isExternal component={Typography} to={getLiveUrl(site.subdomain)} key="view-live" sx={menuStyles}>
             <RocketLaunchIcon fontSize="medium" sx={itemStyles} />
             Live
           </LinkButton>
