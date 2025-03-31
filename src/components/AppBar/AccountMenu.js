@@ -36,7 +36,7 @@ function AccountMenu() {
 				</IconButton>
 			</Tooltip>
 			<Menu
-				sx={{ mt: '45px' }}
+				sx={{ mt: '45px', zIndex: 2000 }}
 				id="menu-appbar"
 				anchorEl={anchorElUser}
 				anchorOrigin={{
