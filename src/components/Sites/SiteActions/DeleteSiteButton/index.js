@@ -11,7 +11,7 @@ const DeleteSiteButton = ({
       variant="contained" 
       color="error"
       onClick={handleDelete(id)}
-      sx={{ width: 'fit-content', px: 1, mx: 1, minWidth: 'auto' }}
+      sx={{ width: 'fit-content', height: 'fit-content', px: 1, mx: 1, minWidth: 'auto' }}
     >
       <DeleteForeverIcon fontSize="small" />
     </Component>

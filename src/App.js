@@ -87,7 +87,7 @@ const App = () => {
 						{msgAlertPopups}
 					</AnimatePresence>
 
-					<Container maxWidth="xl" sx={{ p: 1, mb: 8, '&.MuiContainer-root': { p: 1 } }}>
+					<Container maxWidth="xl" sx={{ p: 1, mb: 8, '&.MuiContainer-root': { p: 0 } }}>
 						<Grid container sx={{ width: '100%' }} justifyContent="center" alignItems="center">
 							<Routes>
 								<Route path='/' element={<Home />} />

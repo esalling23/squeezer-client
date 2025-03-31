@@ -12,7 +12,8 @@ const Preview = ({ data, styles }) => {
 			borderRadius: 2,
 			display: 'flex',
 			flexDirection: 'column',
-			minHeight: '60vh'
+			minHeight: '60vh',
+      px: { xs: 2, md: 4 }
 		}} 
 		bgcolor="background.default"
 	>

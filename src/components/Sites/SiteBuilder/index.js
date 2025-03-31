@@ -1,4 +1,4 @@
-import { CircularProgress, Fade, Grid2, Paper, styled, Typography } from "@mui/material";
+import { Box, CircularProgress, Fade, Grid2, styled, Typography } from "@mui/material";
 import ResponsiveDrawer from "./ResponsiveDrawer";
 import { useEffect, useState } from "react";
 import FormSection from "./FormSection";
@@ -11,17 +11,25 @@ import { isFontDoc } from "../../../lib/styles";
 
 const SectionTitle = ({ children, color }) => {
 	return <Typography 
-		sx={{ textAlign: 'left', letterSpacing: 2, fontWeight: 800, mb: 4 }}
+		sx={{ 
+      textAlign: 'left', 
+      letterSpacing: 2, 
+      fontWeight: 800, 
+      minHeight: 56,
+      display: 'flex',
+      alignItems: 'center',
+      mb: { xs: 0, md: 2 },
+      ml: 4
+    }}
 		color={color || "text.disabled"}
 		variant="h5"
 	>{children}</Typography>
 }
 
 const SectionContainer = styled(Grid2)(({ theme, bgcolor }) => ({
-	padding: '10px', 
+	padding: { xs: 0, md: 1 }, 
 	display: 'flex',
 	flexDirection: 'column',
-	minWidth: '400px',
 }))
 
 function SiteBuilder() {
@@ -75,18 +83,33 @@ function SiteBuilder() {
 	return (
 		<Fade in={true}>
 			<Grid2 container wrap="wrap" position="relative" height={'calc(100vh - 140px)'}>
-				<ResponsiveDrawer setSection={setBuilderSection} />
-				<SectionContainer size="grow">
-					<SectionTitle color="text.default">{builderSection?.toUpperCase() || ''}</SectionTitle>
-					<FormSection
-						section={builderSection}
-						setSiteData={setSiteData}
-						site={siteData}
-						setStyleData={setStyleData}
-						style={styleData}
-					/>
+				<SectionContainer 
+          size={{ xs: 12, md: 6 }} 
+          sx={{ flexDirection: 'row' }}
+        >
+          <ResponsiveDrawer setSection={setBuilderSection} />
+          <Box 
+            sx={{ 
+              width: '100%',
+              height: '80vh',
+              mb: 4
+            }}
+          >
+            <SectionTitle color="text.default">{builderSection?.toUpperCase() || ''}
+            </SectionTitle>
+            <FormSection
+              section={builderSection}
+              setSiteData={setSiteData}
+              site={siteData}
+              setStyleData={setStyleData}
+              style={styleData}
+            />
+          </Box>
 				</SectionContainer>
-				<SectionContainer size="grow" bgcolor='background.default'>
+				<SectionContainer 
+          size={{ xs: 12, md: 6 }} 
+          bgcolor='background.default'
+        >
 					<SectionTitle>PREVIEW</SectionTitle>
 					<Preview data={siteData} styles={styleData} />
 				</SectionContainer>

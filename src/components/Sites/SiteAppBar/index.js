@@ -2,7 +2,7 @@ import React, { useMemo, useState } from "react";
 import styled from "styled-components";
 import { useNavigate, useLocation, useParams } from "react-router";
 
-import { AppBar as mAppBar, Box, Container, Toolbar, Breadcrumbs } from "@mui/material"
+import { AppBar as mAppBar, Box, Container, Toolbar, Breadcrumbs, Typography } from "@mui/material"
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import HomeIcon from '@mui/icons-material/Home';
 import ContactsIcon from '@mui/icons-material/Contacts';
@@ -16,10 +16,11 @@ import SiteActionsMenu from "../SiteActions/SiteActionsGroup/SiteActionsMenu";
 const AppBar = styled(mAppBar)(({ theme }) => ({
   boxShadow: 'none',
 	borderBottom: `1px solid ${theme.divider}`,
-	zIndex: 1,
+  mt: 1,
 	bgcolor: 'white', 
 	'&.MuiPaper-root': {
-		boxShadow: 'none'
+		boxShadow: 'none',
+    zIndex: 1400,
 	}
 }));
 
@@ -34,7 +35,7 @@ const SiteAppBar = ({
 
 	const siteActions = useMemo(() => {
 		if (!id) {
-			return [SITE_ACTIONS.CREATE]
+			return []
 		}
     if (location.pathname.includes('/leads')) {
       return [
@@ -56,51 +57,68 @@ const SiteAppBar = ({
 
 	return (
     <>
-      <AppBar position="sticky" sx={{ zIndex: 1300 }}>
+      <AppBar position="sticky">
         <Container maxWidth="xl">
           <Toolbar 
             disableGutters
           >
+            <RouterLink
+              onClick={(e) => {
+                e.preventDefault()
+                navigate(-1)
+              }}
+              sx={{ 
+                ml: 0,
+                mr: 3,
+                display: 'flex',
+                alignItems: 'center',
+                opacity: id ? 1 : 0, 
+                pointerEvents: id ? 'auto' : 'none' 
+              }}
+            >
+              <ArrowBackIcon />
+            </RouterLink>
             <Breadcrumbs 
               sx={{ minHeight: '56px', flexGrow: 1, display: 'flex', backgroundColor: 'inherit', boxShadow: 'none' }}
               aria-label="breadcrumbs"
             >
               <RouterLink
-                onClick={(e) => {
-                  e.preventDefault()
-                  navigate(-1)
-                }}
-                sx={{ 
-                  opacity: id ? 1 : 0, 
-                  pointerEvents: id ? 'auto' : 'none' 
-                }}
-              >
-                <ArrowBackIcon />
-              </RouterLink>
-              <RouterLink
                 underline="hover"
-                sx={{ display: 'flex', alignItems: 'center' }}
+                sx={{ display: 'flex', alignItems: 'center', mx: 0 }}
                 color="inherit"
                 to="/sites"
               >
                 <HomeIcon sx={{ mr: 0.5 }} fontSize="inherit" />
                 Sites
               </RouterLink>
-              {site?.pageTitle && <RouterLink
+              {site?.subdomain && <RouterLink
                 underline="hover"
-                sx={{ display: 'flex', alignItems: 'center' }}
+                sx={{ 
+                  display: 'flex', 
+                  alignItems: 'center',
+                  minWidth: 60,
+                  maxWidth: 160,
+                  flexGrow: 1,
+                  mx: 0,
+                }}
                 color="inherit"
-                to={`/sites/${site.id}`}
+                to={`/sites/${site?.id}`}
               >
                 <WebIcon sx={{ mr: 0.5 }} fontSize="inherit" />
-                {site.pageTitle}
+                <Typography
+                  sx={{ 
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                  }}
+                >{site.subdomain}</Typography>
               </RouterLink>}
 
               {location.pathname.includes('/leads') && <RouterLink
                 underline="hover"
-                sx={{ display: 'flex', alignItems: 'center' }}
+                sx={{ display: 'flex', alignItems: 'center', mx: 0 }}
                 color="inherit"
-                to={`/sites/${site.id}/leads`}
+                to={`/sites/${site?.id}/leads`}
               >
                 <ContactsIcon sx={{ mr: 0.5 }} fontSize="inherit" />
                 Leads

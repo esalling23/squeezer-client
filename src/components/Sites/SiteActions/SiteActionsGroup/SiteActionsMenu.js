@@ -44,7 +44,7 @@ const SiteActionsMenu = ({
   };
   
   const actionList = useMemo(() => {
-    if (!site) return <></>
+    if (!site) return []
 
     const displayActions = allActions ? [
       SITE_ACTIONS.LEADS,
@@ -86,9 +86,17 @@ const SiteActionsMenu = ({
     >{link}</MenuItem>))
   }, [actions, site, handleDelete, allActions])
 
-  return <Box sx={{ flexGrow: 1, justifyContent: 'end', display: { xs: 'flex', md: 'none' } }}>
+  if (actionList?.length <= 0) {
+    return <></>
+  }
+
+  return <Box sx={{ 
+    flexGrow: 1, 
+    justifyContent: 'end', 
+    display: { xs: 'flex', md: 'none' } 
+  }}>
     <Tooltip title="Site actions">
-      <IconButton onClick={handleOpenActionsMenu} sx={{ p: 1 }}>
+      <IconButton onClick={anchorElUser ? handleCloseActionsMenu : handleOpenActionsMenu} sx={{ p: 1 }}>
         <SettingsApplicationsIcon />
       </IconButton>
     </Tooltip>

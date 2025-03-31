@@ -26,7 +26,6 @@ const SiteList =  () => {
           display: 'flex',
           flexDirection: 'row',
           justifyContent: 'space-between',
-          // backgroundColor: `${theme.palette.primary.main}`,
           backdropFilter: 'brightness(90%)',
           '&:hover': {
             backdropFilter: 'brightness(95%)'
@@ -34,13 +33,22 @@ const SiteList =  () => {
         }}
       >
         <RouterLink 
-          to={`/sites/${site.id}`} sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', flexGrow: 1 }}>
+          to={`/sites/${site.id}`} 
+          sx={{ m: 0, flex: 1, minWidth: 0, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'start' }}
+        >
           {site.heroImage ? (
-            <img src={site.heroImage} height="100" width="100" alt="hero" /> 
+            <img 
+              src={site.heroImage} 
+              height="80" 
+              width="80" 
+              alt="hero" 
+              sx={{ minWidth: 80 }}
+            /> 
           ) : <Box
             sx={{
-              width: 100,
-              height: 100,
+              width: 80,
+              height: 80,
+              minWidth: 80,
               // backgroundColor: site.backgroundColor,
               display: 'flex',
               justifyContent: 'center',
@@ -51,9 +59,9 @@ const SiteList =  () => {
           </Box>}
           <Typography
             variant="h5"
-            sx={{ ml: 3 }}
+            sx={{ ml: 1, minWidth: 0, flex: 1, overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}
           >
-            {site.pageTitle}
+            {site.subdomain}
           </Typography>
         </RouterLink>
 

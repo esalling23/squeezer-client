@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import { createSite } from "../../../../api/sites"
 import { useUserContext } from "../../../../context/UserContext"
 import PostAddIcon from '@mui/icons-material/PostAdd'
@@ -35,7 +35,7 @@ const CreateSiteButton = ({
       variant="contained"
     >
 			<PostAddIcon />
-			New Site
+			<Typography sx={{ display: { xs: 'none', sm: 'flex' }}}>New Site</Typography>
 		</Component>
 	)
 }

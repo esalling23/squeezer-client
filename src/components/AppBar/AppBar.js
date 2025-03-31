@@ -64,7 +64,7 @@ const ResponsiveAppBar = () => {
 			<AppBar position="sticky" ref={smMenuAnchorRef}>
 				<Container maxWidth="xl">
 					<Toolbar disableGutters sx={{ display: 'flex', justifyContent: 'space-between'}}>
-            <Box>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <AdbIcon sx={{ mr: 1 }} />
               <LogoText
                 variant="h6"
@@ -73,14 +73,14 @@ const ResponsiveAppBar = () => {
                 href="/#/"
                 style={{ width: 'fit-content'}}
               >
-                Squeeze Page
+                Squeezer
               </LogoText>
             </Box>
 
-						{isAuthenticated ? (<>
+						{isAuthenticated ? (<Box sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'nowrap'}}>
               <CreateSiteButton sx={{ mr: 2 }}/>
 							<AccountMenu />
-						</>) : <>
+						</Box>) : <>
 							<ActionButtons />
 						</>}
 					</Toolbar>

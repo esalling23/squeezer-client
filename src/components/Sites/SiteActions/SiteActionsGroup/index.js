@@ -44,7 +44,16 @@ const SiteActionsGroup = ({
     })
   }, [actions, site, handleDelete, allActions])
 
-  return <Box sx={{ justifyContent: 'end' }}>
+  if (actionButtons?.length <= 0) {
+    return <></>
+  }
+
+  return <Box sx={{ 
+    display: 'flex', 
+    justifyContent: 'end', 
+    alignItems: 'center', 
+    flexWrap: 'wrap',
+  }}>
     {actionButtons}
   </Box>
 }

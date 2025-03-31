@@ -10,11 +10,9 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 import builderSections from '../builderStaticInputs';
 
-const drawerWidth = 240;
+const drawerWidth = 180;
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -97,27 +95,14 @@ export default function MiniDrawer({
                 px: 2.5,
               },
               open
-                ? {
-                    justifyContent: 'initial',
-                  }
-                : {
-                    justifyContent: 'center',
-                  },
+                ? { justifyContent: 'initial' }
+                : { justifyContent: 'center' },
             ]}
           >
             <ListItemIcon
               sx={[
-                {
-                  minWidth: 0,
-                  justifyContent: 'center',
-                },
-                open
-                  ? {
-                      mr: 3,
-                    }
-                  : {
-                      mr: 'auto',
-                    },
+                { minWidth: 0, justifyContent: 'center' },
+                open? { mr: 3 } : { mr: 'auto' },
               ]}
             >
               <Icon fontSize="medium" />
@@ -125,13 +110,7 @@ export default function MiniDrawer({
             <ListItemText
               primary={key[0].toUpperCase() + key.slice(1)}
               sx={[
-                open
-                  ? {
-                      opacity: 1,
-                    }
-                  : {
-                      opacity: 0,
-                    },
+                open? { opacity: 1 } : { opacity: 0 },
               ]}
             />
           </ListItemButton>
@@ -145,7 +124,7 @@ export default function MiniDrawer({
       <Drawer variant="permanent" open={open} sx={{
           flexShrink: 0,
           [`& .MuiDrawer-paper`]: { 
-						width: open ? 240 : 60,
+						width: open ? drawerWidth : 60,
 						boxSizing: 'border-box',
 						position: "relative",
 					},
