@@ -1,10 +1,29 @@
 import { Box, Button } from "@mui/material"
 import ContentCopyIcon from "@mui/icons-material/ContentCopy"
+import { useUserContext } from "../../../../context/UserContext"
+import { useParams } from "react-router";
+import { useMemo } from "react";
 
 const EmbedBox = () => {
+  const { id: siteId } = useParams();
+  const { getSite } = useUserContext();
+
+  const site = useMemo(() => getSite(siteId), [siteId, getSite])
+
+  const embed = useMemo(() => {
+    return `
+      <iframe 
+        src="https://${site.subdomain}.squeezer.eronsalling.me" 
+        width="100%" 
+        height="790px" 
+        frameBorder="0" 
+        style="border: 0;"
+      ></iframe>
+      <br>Brought to you by <a href="https://${site.subdomain}.squeezer.eronsalling.me" target="_blank">${site.subdomain}</a>`
+  }, [site])
 
 	const handleCopyEmbed = () => {
-		navigator.clipboard.writeText('')
+		navigator.clipboard.writeText(embed)
 	}
 	return (
 		<Box
@@ -24,8 +43,7 @@ const EmbedBox = () => {
 			>
 				<ContentCopyIcon />
 			</Button>
-			{/* Embed content */}
-			{'<embed></embed>'}
+			{embed}
 		</Box>
 	)
 }
