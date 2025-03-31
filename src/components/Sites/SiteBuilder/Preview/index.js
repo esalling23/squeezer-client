@@ -8,8 +8,8 @@ const Preview = ({ data, styles }) => {
 		className="preview"
 		component={Paper}
 		sx={{
-			border: '1px solid primary.main', 
-			borderRadius: 2,
+			border: 0, 
+      boxShadow: 'none',
 			display: 'flex',
 			flexDirection: 'column',
 			minHeight: '60vh',

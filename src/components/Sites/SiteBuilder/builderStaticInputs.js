@@ -35,7 +35,7 @@ const builderStaticInputs = {
     icon: RocketLaunchIcon,
     elements: [
       { type: 'embed', component: <EmbedBox /> },
-      { name: 'subdomain', label: 'Subdomain for full-page hosting', type: 'text' },
+      { name: 'subdomain', label: 'Site subdomain', type: 'text', helperText: 'Subdomain for full-site hosting' },
     ]
   },
 }

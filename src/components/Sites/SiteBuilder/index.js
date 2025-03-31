@@ -85,14 +85,14 @@ function SiteBuilder() {
 			<Grid2 container wrap="wrap" position="relative" height={'calc(100vh - 140px)'}>
 				<SectionContainer 
           size={{ xs: 12, md: 6 }} 
-          sx={{ flexDirection: 'row' }}
+          sx={{ flexDirection: 'row', height: '100%' }}
         >
           <ResponsiveDrawer setSection={setBuilderSection} />
           <Box 
             sx={{ 
               width: '100%',
               height: '80vh',
-              mb: 4
+              mb: { xs: 4, md: 0 }
             }}
           >
             <SectionTitle color="text.default">{builderSection?.toUpperCase() || ''}
@@ -108,6 +108,7 @@ function SiteBuilder() {
 				</SectionContainer>
 				<SectionContainer 
           size={{ xs: 12, md: 6 }} 
+          sx={{ height: '80vh' }}
           bgcolor='background.default'
         >
 					<SectionTitle>PREVIEW</SectionTitle>
