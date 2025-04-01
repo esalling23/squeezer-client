@@ -40,6 +40,8 @@ const FormSection = ({ section, setSiteData, site, setStyleData, style }) => {
 
 		try {
 			const res = await updateSite(user, site.id, siteChanges)
+      // Refresh data
+      refreshData()
 			addAlert({
 				heading: 'Success!',
 				message: `Site ${site ? 'updated' : 'created'}!`,
@@ -49,10 +51,6 @@ const FormSection = ({ section, setSiteData, site, setStyleData, style }) => {
 				...curr, 
 				...res.data.site
 			}))
-      // Refresh data if subdomain changes so live urls update
-      if (siteChanges.subdomain && site.subdomain !== siteChanges.subdomain) {
-        refreshData()
-      }
 		} catch (error) {
 			addAlert({
 				heading: 'Something went wrong',
