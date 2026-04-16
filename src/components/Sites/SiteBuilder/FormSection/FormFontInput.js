@@ -1,17 +1,12 @@
 import React, { useEffect, useState } from "react"
 import { Box, Typography } from "@mui/material"
-import FormTextInput from "./FormTextInput"
-
-// Future work:
-// - include dropdown of reusable fonts
-// - include backup font option that only uses reusable, browser-builtin fonts
+import FontInputToggle from "./FontInputToggle"
 
 const fontData = {
   family: '',
   url: ''
 }
 
-// Form input for handling font submission
 const FormFontInput = ({
 	name,
 	label = 'Font Input',
@@ -20,8 +15,8 @@ const FormFontInput = ({
 }) => {
 	const [value, setValue] = useState(startingValue || fontData)
 
-	const handleChange = (value) => {
-		setValue(curr => ({ ...curr, ...value }))
+	const handleFontToggleChange = (result) => {
+		setValue(curr => ({ ...curr, ...result }))
 	}
 
   useEffect(() => {
@@ -30,25 +25,16 @@ const FormFontInput = ({
 
 	return (
 		<Box sx={{ width: 1 }}>
-      <Typography 
-        color="text.primary" 
+      <Typography
+        color="text.primary"
         aria-label="Font Input Label"
         variant="h6"
         sx={{ mb: 1 }}
       >{label}</Typography>
-			<FormTextInput 
-        name="family"
-        label="Font Family Name"
-        helperText="Example: Garramond, Arial, etc."
-        startingValue={startingValue?.family || ""}
-        handleFormChange={handleChange}
-      />
-			<FormTextInput 
-        name="url"
-        label="Font Delivery URL"
-        helperText="Obtain from a font CDN like Google Fonts"
-        startingValue={startingValue?.url || ""}
-        handleFormChange={handleChange}
+			<FontInputToggle
+        label={label}
+        value={value}
+        onChange={handleFontToggleChange}
       />
 		</Box>
 	)

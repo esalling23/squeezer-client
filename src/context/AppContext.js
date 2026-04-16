@@ -13,7 +13,6 @@ export const AppProvider = ({ children }) => {
     setAlerts(alerts => alerts.filter((msg) => msg.id !== id))
   }, [])
 
-
   const addAlert = useCallback(({ heading, message, variant, severity }) => {
     const id = uuid()
     setAlerts(alerts => [...alerts, { heading, message, variant, severity, id }])
