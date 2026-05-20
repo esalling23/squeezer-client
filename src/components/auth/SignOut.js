@@ -8,11 +8,11 @@ import { useUserContext } from '../../context/UserContext'
 
 const SignOut = () => {
 	const { addAlert } = useAppContext();
-	const { user, logout } = useUserContext();
+	const { logout } = useUserContext();
 
 	const navigate = useNavigate()
   useEffect(() => {
-    signOut(user)
+    signOut()
       .finally(() => {
 				addAlert({
           heading: 'Signed Out Successfully',
@@ -22,7 +22,7 @@ const SignOut = () => {
 				logout()
 				navigate('/')
 			})
-  }, [addAlert, navigate, logout, user])
+  }, [addAlert, navigate, logout])
 
   return '';
 }

@@ -1,14 +1,14 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { signUp, signIn } from '../../api/auth'
+import { signUp, signIn, signInWithGoogle } from '../../api/auth'
 import { signUpSuccess, signUpFailure } from '../AutoDismissAlert/messages'
 
 import FormGroup from '@mui/material/FormGroup';
 import TextField from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
 import Button from '@mui/material/Button'
-import { Box, Grid2 as Grid } from '@mui/material';
+import { Box, Divider, Grid2 as Grid } from '@mui/material';
 import useFormData from '../../hooks/useFormData';
 import { useAppContext } from '../../context/AppContext';
 import { useUserContext } from '../../context/UserContext';
@@ -92,6 +92,15 @@ const SignUp = () => {
           </FormGroup>
           <Button sx={groupStyles} variant='contained' type='submit'>Submit</Button>
         </form>
+        <Divider sx={{ width: '100%', my: 2 }}>or</Divider>
+        <Button
+          variant='outlined'
+          fullWidth
+          onClick={() => signInWithGoogle('/sites')}
+          sx={groupStyles}
+        >
+          Continue with Google
+        </Button>
       </Box>
 			<RouterLink 
         to="/sign-in"

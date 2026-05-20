@@ -23,7 +23,7 @@ const ChangePassword = () => {
   const onChangePassword = (event) => {
     event.preventDefault()
 
-    changePassword(formData, user)
+    changePassword(formData)
       .then(() =>
         addAlert({
           heading: 'Change Password Success',

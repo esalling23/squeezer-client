@@ -17,7 +17,7 @@ function LeadsView() {
 	
 	useEffect(() => {
 		if (leads) return;
-		indexLeads(user, siteId)
+		indexLeads(siteId)
 			.then(res => {
 				setLeads(res.data)
 			})

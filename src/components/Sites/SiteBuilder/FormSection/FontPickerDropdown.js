@@ -76,7 +76,7 @@ const FontPickerDropdown = ({
 
     const fetchFonts = async () => {
       try {
-        const res = await getFonts(user)
+        const res = await getFonts()
         if (!cancelled) {
           setFonts(res.data)
           setLoading(false)

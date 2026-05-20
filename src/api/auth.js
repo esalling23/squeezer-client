@@ -1,49 +1,36 @@
-// import apiUrl from '../apiConfig'
-import axios from 'axios'
+import { authClient } from '../lib/authClient';
 
-export const signUp = (credentials) => {
-  return axios({
-    method: 'POST',
-    url: '/auth/sign-up/',
-    data: {
+const throwIfError = ({ data, error }) => {
+	if (error) throw new Error(error.message || 'Auth request failed');
+	return { data };
+};
+
+export const signUp = (credentials) =>
+	authClient.signUp
+		.email({
 			email: credentials.email,
 			password: credentials.password,
-			password_confirmation: credentials.passwordConfirmation
-    }
-  })
-}
+			name: credentials.name || credentials.email.split('@')[0],
+		})
+		.then(throwIfError);
 
-export const signIn = (credentials) => {
-  return axios({
-    url: '/auth/sign-in/',
-    method: 'POST',
-    data: {
+export const signIn = (credentials) =>
+	authClient.signIn
+		.email({
 			email: credentials.email,
-			password: credentials.password
-    }
-  })
-}
+			password: credentials.password,
+		})
+		.then(throwIfError);
 
-export const signOut = (user) => {
-  return axios({
-    url: '/auth/sign-out/',
-    method: 'DELETE',
-    headers: {
-      Authorization: `Bearer ${user.token}`
-    }
-  })
-}
+export const signOut = () => authClient.signOut();
 
-export const changePassword = (passwords, user) => {
-  return axios({
-    url: '/auth/change-password/',
-    method: 'PATCH',
-    headers: {
-      Authorization: `Bearer ${user.token}`
-    },
-    data: {
-			old: passwords.oldPassword,
-			new: passwords.newPassword
-    }
-  })
-}
+export const signInWithGoogle = (callbackURL = '/sites') =>
+	authClient.signIn.social({ provider: 'google', callbackURL });
+
+export const changePassword = (passwords) =>
+	authClient
+		.changePassword({
+			currentPassword: passwords.oldPassword,
+			newPassword: passwords.newPassword,
+		})
+		.then(throwIfError);

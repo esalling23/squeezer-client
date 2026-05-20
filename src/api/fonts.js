@@ -1,10 +1,7 @@
 import axios from 'axios'
 
-export const getFonts = (user) => {
+export const getFonts = () => {
   return axios({
     url: '/api/fonts',
-    headers: {
-      Authorization: `Bearer ${user.token}`
-    }
   })
 }

@@ -15,7 +15,7 @@ const CreateSiteButton = ({
 	const navigate = useNavigate();
 
 	const onClick = useCallback(() => {
-		createSite(user)
+		createSite()
 			.then(res => {
 				addAlert({
 					heading: 'New Site Created Successfully', 

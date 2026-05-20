@@ -39,7 +39,7 @@ const FormSection = ({ section, setSiteData, site, setStyleData, style }) => {
 		siteChanges.append('style', JSON.stringify(style))
 
 		try {
-			const res = await updateSite(user, site.id, siteChanges)
+			const res = await updateSite(site.id, siteChanges)
       // Refresh data
       refreshData()
 			addAlert({

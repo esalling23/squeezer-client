@@ -47,7 +47,7 @@ function SiteBuilder() {
 	
 	useEffect(() => {
 		if (site) return;
-		getSite(user, siteId)
+		getSite(siteId)
 			.then(res => {
 				setSite(res.data)
 				setStyleData(res.data.theme)

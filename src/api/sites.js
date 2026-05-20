@@ -1,52 +1,38 @@
 import axios from 'axios'
-// import apiUrl from '../apiConfig'
 
-export const indexSites = (user) => {
+export const indexSites = () => {
   return axios({
     url: '/api/sites',
-    headers: {
-      Authorization: `Bearer ${user.token}`
-    }
   })
 }
-export const getSite = (user, id) => {
+export const getSite = (id) => {
   return axios({
     url: '/api/sites/' + id,
-    headers: {
-      Authorization: `Bearer ${user.token}`
-    }
   })
 }
 
-export const createSite = (user) => {
+export const createSite = () => {
   return axios({
     url: '/api/sites',
     method: 'post',
     data: { site: { } },
-    headers: {
-      Authorization: `Bearer ${user.token}`
-    }
   })
 }
 
-export const updateSite = (user, siteId, data) => {
+export const updateSite = (siteId, data) => {
   return axios({
     url: `/api/sites/${siteId}`,
     method: 'patch',
     data,
     headers: {
-      'Content-Type': 'multipart/form-data', 
-      Authorization: `Bearer ${user.token}`
+      'Content-Type': 'multipart/form-data',
     }
   })
 }
 
-export const deleteSite = (user, siteId) => {
+export const deleteSite = (siteId) => {
   return axios({
     url: `/api/sites/${siteId}`,
     method: 'delete',
-    headers: {
-      Authorization: `Bearer ${user.token}`
-    }
   })
 }

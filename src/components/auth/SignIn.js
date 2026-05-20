@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { signIn } from '../../api/auth'
+import { signIn, signInWithGoogle } from '../../api/auth'
 import { signInSuccess, signInFailure } from '../AutoDismissAlert/messages'
 
 import FormGroup from '@mui/material/FormGroup';
@@ -12,7 +12,7 @@ import Grid from '@mui/material/Grid2';
 import useFormData from '../../hooks/useFormData';
 import { useAppContext } from '../../context/AppContext';
 import { useUserContext } from '../../context/UserContext';
-import { Box } from '@mui/material';
+import { Box, Divider } from '@mui/material';
 import RouterLink from '../shared/RouterLink';
 
 const groupStyles = {
@@ -82,6 +82,15 @@ const SignIn = () => {
           </FormGroup>
           <Button sx={groupStyles} variant='contained' type='submit'>Submit</Button>
         </form>
+        <Divider sx={{ width: '100%', my: 2 }}>or</Divider>
+        <Button
+          variant='outlined'
+          fullWidth
+          onClick={() => signInWithGoogle('/sites')}
+          sx={groupStyles}
+        >
+          Continue with Google
+        </Button>
       </Box>
 			<RouterLink 
         sx={{

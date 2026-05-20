@@ -30,7 +30,7 @@ const ConfirmDeleteSiteModal = ({
   const { user } = useUserContext()
 
   const handleConfirm = () => {
-    deleteSite(user, siteId)
+    deleteSite(siteId)
       .then(() => {
         handleClose();
         addAlert({
